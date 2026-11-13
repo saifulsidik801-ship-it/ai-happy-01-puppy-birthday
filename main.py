@@ -1,23 +1,24 @@
-#!/usr/bin/env python3
-"""ai-happy-01 entry: copy the chosen happy image to the output file.
+"""Emit the happy birthday-puppy image.
 
-The image is a golden retriever puppy at its first birthday party:
-a tiny party hat, falling confetti, a sprinkle cake with one lit candle,
-and the widest happy laugh. Pure joy, drawn to make the judge smile.
-No network, no randomness: the same bytes every run.
+The entry is a golden retriever puppy at a birthday party, and the
+program simply hands that exact image through untouched: it reads the
+entry.png file sitting next to this script and writes its bytes out
+again unchanged. A plain byte copy has no randomness, no clock, and no
+network, so every run produces the identical output file.
 """
 
 import os
 import shutil
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-OUT = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
 
-
-def main() -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(HERE / "entry.png", OUT / "entry.png")
+def main():
+    here = Path(__file__).resolve().parent
+    source = here / "entry.png"
+    out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+    out_dir.mkdir(parents=True, exist_ok=True)
+    # Byte-for-byte copy, so the output is identical on every run.
+    shutil.copyfile(source, out_dir / "entry.png")
 
 
 if __name__ == "__main__":
